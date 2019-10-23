@@ -1,1 +1,11 @@
-<h1>Product Detail</h1>
+{% load static %}
+<link rel="stylesheet" href="{% static 'cart/css/style.css' %}">
+<h1>Product Details</h1>
+<p>Name: {{ object.name }}</p>
+<p>Description:{{ object.description }}</p>
+<p>Published: {{ object.created_date|date }}</p>
+<form action="/cart/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Add to cart">
+</form> 
