@@ -5,7 +5,7 @@ from cart.models import Product, Cart
 from django.template import loader
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpRequest
-from .forms import TickForm
+from .forms import CartForm
 class ProductDetailView(DetailView):
     model = Product
 
@@ -15,9 +15,21 @@ class ProductDetailView(DetailView):
 	
 
     def get_context_data(self, **kwargs):
-       context = super().get_context_data(**kwargs)
-        
-       return context
+
+        context = super().get_context_data(**kwargs)
+        context['form'] = CartForm(initial={'product': self.get_object()})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = CartForm(self.request.POST)
+        self.object = self.get_object()
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('cart:cart')
+        context = self.get_context_data(**kwargs)
+        context['form'] = form
+        return self.render_to_response(context)
+
 
 class ProductListView(ListView):
     model = Product
@@ -26,8 +38,5 @@ class ProductListView(ListView):
 class CartView(ListView):
     template_name = 'cart/cart.html'
     model = Cart
-    def get_context_data(self, **kwargs):
-       context = super().get_context_data(**kwargs)
-        
-       return context
+    
      

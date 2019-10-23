@@ -4,11 +4,10 @@
 <p>Name: {{ object.name }}</p>
 <p>Description:{{ object.description }}</p>
 <p>Published: {{ object.created_date|date }}</p>
-<form action="{% url 'cart' %}" method="POST">
+<form action="" method="POST">
     {% csrf_token %}
     {{ form.product }}
     {{form.product.errors}}
-    <label>Quantity:{{form.quantity}}</label>
-    {{form.product.errors}}
-    <input type="submit" value="Add to cart">
+    <label>Quantity:</label>{{form.quantity}}
+    {{form.product.errors}}    <input type="submit" value="Add to cart">
 </form> 
