@@ -5,7 +5,10 @@ from cart.models import Product, Cart
 from django.template import loader
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpRequest
+from django.shortcuts import redirect
 from .forms import CartForm
+from django.http import Http404
+from .models import Cart
 class ProductDetailView(DetailView):
     model = Product
 
@@ -21,11 +24,12 @@ class ProductDetailView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        
         form = CartForm(self.request.POST)
         self.object = self.get_object()
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('cart:cart')
+            return redirect('cart:cart')
         context = self.get_context_data(**kwargs)
         context['form'] = form
         return self.render_to_response(context)
@@ -38,5 +42,11 @@ class ProductListView(ListView):
 class CartView(ListView):
     template_name = 'cart/cart.html'
     model = Cart
-    
+    def post(self, request, *args, **kwargs):
+        cart_id = self.request.POST.get('cart_id')
+        cart_obj=Cart.objects.filter(id=cart_id).first()
+        if cart_obj:
+            cart_obj.delete()
+            return redirect('cart:cart')
+        raise Http404()    
      
