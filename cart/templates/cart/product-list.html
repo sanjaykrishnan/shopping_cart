@@ -1,1 +1,15 @@
+{%load static%}
 <h1>Product List</h1>
+<link rel="stylesheet" href="{%static 'cart/css/style.css'%}">
+<ul>
+{% for Product in object_list %}
+    <a href="product/{{Product.slug}}/">{{Product.name}}<a>
+    {%if Product.image%}
+        <img src="{{Product.image.url}}" height="100" width="100">
+    {%endif%}
+    <p>{{Product.description}}</p>
+{% empty %}
+    <li>No articles yet.</li>
+{% endfor %}
+</ul>
+
