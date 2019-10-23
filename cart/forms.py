@@ -3,6 +3,11 @@ from .models import Cart
 
 class TickForm(forms.ModelForm):
     tick = forms.BooleanField(label = 'ok')
-    model = Cart
+    class Meta:
+        model = Cart
+        fields = ['product','quantity']
+        widgets = {
+            'product':forms.HiddenInput,
+        }
 
         
