@@ -1,22 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'cart/base.html' %}
 {% load static %}
-
-{% block title %}Product Detail{% endblock %}
-
-{% block content %}
-    <h1>Product Details</h1>
-    <p>Name: {{ object.name }}</p>
-    <p>Description:{{ object.description }}</p>
-    <p>Published: {{ object.created_date|date }}</p>
-    {% if object.image %}
-        <img src="{{ product.image.url }}" height="100" width="100">
-    {% endif %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.product }}
-        {{form.product.errors}}
-        <label>Quantity:</label>{{form.quantity}}
-        {{form.quantity.errors}}
-        <input type="submit" value="Add to cart">
-    </form>
-{% endblock %}
+<link rel="stylesheet" href="{% static 'cart/css/style.css' %}">
+<h1>Product Details</h1>
+<p>Name: {{ object.name }}</p>
+<p>Description:{{ object.description }}</p>
+<p>Published: {{ object.created_date|date }}</p>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.product }}
+    {{form.product.errors}}
+    <label>Quantity:</label>{{form.quantity}}
+    {{form.quantity.errors}}
+    <input type="submit" value="Add to cart">
+</form> 

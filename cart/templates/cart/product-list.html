@@ -1,19 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'cart/base.html' %}
+
 {%load static%}
-
-{% block title %} Product List {% endblock %}
-
-{% block content %}
+{% block content%}
     <h1>Product List</h1>
+    <link rel="stylesheet" href="{%static 'cart/css/style.css'%}">
     <ul>
-    {% for product in object_list %}
-        <a href="{% url 'cart:product-detail' slug=product.slug %}">{{product.name}}<a>
-        {% if product.image %}
-            <img src="{{ product.image.url }}" height="100" width="100">
-        {% endif %}
-        <p>{{product.description}}</p>
+    {% for Product in object_list %}
+        <a href="product/{{Product.slug}}/">{{Product.name}}<a>
+        {%if Product.image%}
+            <img src="{{Product.image.url}}" height="100" width="100">
+        {%endif%}
+        <p>{{Product.description}}</p>
     {% empty %}
-        <li>No products yet.</li>
+        <li>No articles yet.</li>
     {% endfor %}
     </ul>
 {% endblock %}
+
+
